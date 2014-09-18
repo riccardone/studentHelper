@@ -19,7 +19,7 @@ var appSettings = {
     },
 
     facebook: {
-        appId: '1408629486049918', // Put your Facebook App ID here
+        appId: '688742727847623', // Put your Facebook App ID here
         redirectUri: 'https://www.facebook.com/connect/login_success.html' // Put your Facebook Redirect URI here
     },
 
