@@ -5,58 +5,48 @@
 var app = app || {};
 
 app.Schools = (function () {
-    'use strict'
-
+    'use strict'    
+    
     // Schools model
     var schoolsModel = (function () {
         var schoolModel = {
-
             id: 'code',
             fields: {
-                SchoolName: {
+                schoolName: {
                         field: 'schoolName',
                         defaultValue: ''
                     },
-                Address: {
+                address: {
                         field: 'address',
                         defaultValue: ''
                     },
-                Location: {
+                location: {
                         field: 'location',
                         defaultValue: null
-                    }                
-            },
-            isVisible: function () {                
-                if (this.get('Location')) {
-                    return true;
-                }
-                return false;
+                    },
+                pictureUrl: {
+                        field: 'pictureUrl',
+                        defaultValue: 'styles/images/kimages.jpg'
+                    }
             }
         };
         
-        var studentCityName = "";
-       
-        var schoolsDataSource = new kendo.data.DataSource({
-            transport: {
-                read: {
-                    url: "https://testapi.kaplaninternational.com/api/schools/" + studentCityName + "?access_token=kicbus",
-                    dataType: "jsonp"
-                }
-            },
-            schema: {
-                model: schoolModel
-            },
-            change: function (e) {
-                if (e.items && e.items.length > 0) {
-                    $('#no-activities-span').hide();
-                } else {
-                    $('#no-activities-span').show();
-                }
-            },
-            sort: { field: 'SchoolName', dir: 'asc' }
-        });
+        var studentCityName = '';
+        //var url = '';
         
-        var _handleRefresh = function() {
+        var getCityName = function() {
+            return studentCityName;
+        }
+        
+        var schoolsDataSource = new kendo.data.DataSource({
+                                                              //data: [{"code":"LOC","schoolName":"KIC London Covent Garden","address":"3-4 Southampton Place, Covent Garden, London, UK","location":{"Longitude":-0.121794,"Latitude":51.5182}},{"code":"LOL","schoolName":"KIC London Leic. Square","address":"lan International London, 3 - 5 Charing Cross Road, London, United Kingdom","location":{"Longitude":-0.128781,"Latitude":51.5098}}]           
+                                                              schema: {
+                model: schoolModel
+            },            
+                                                              sort: { field: 'SchoolName', dir: 'asc' }
+                                                          });
+        
+        function _handleRefresh() {
             var options = {
                 enableHighAccuracy: true
             },
@@ -76,19 +66,22 @@ app.Schools = (function () {
             dataContext.getCityName(position.coords.latitude, position.coords.longitude).then(function(data) {
                 $.each(data['results'], function(i, val) {
                     $.each(val['address_components'], function(i, val) {
-                        if (val['types'] === "locality,political") {
-                            if (val['long_name'] !=="") {
-                                studentCityName = val['long_name'];
-                                schoolsDataSource.read();
-                            } else {
-                                studentCityName = "unknown";
-                            }
-                            console.log(i + ", " + val['long_name']);
-                            console.log(i + ", " + val['types']);
-                        }
+                        $.each(val['types'], function(i, val2) {
+                            if (val2 === "locality") {
+                                if (val['long_name'] !=="") {
+                                    studentCityName = val['long_name'];                                    
+                                    dataContext.getSchoolsByCity(studentCityName).then(function(data) {
+                                        schoolsDataSource.data(data);                                           
+                                    });
+                                } else {
+                                    studentCityName = "unknown";
+                                }                                
+                                console.log('Set city for this student: ' + studentCityName);
+                            }    
+                        });
                     });
                 });
-                console.log('Success');
+                //app.mobileApp.hideLoading();                
             }, function (err) { 
                 console.log('error: ' + err);
             });                
@@ -99,20 +92,28 @@ app.Schools = (function () {
                         'message: ' + error.message + '<br/>');
         }
         
-        _handleRefresh();
-
         return {
-            schools: schoolsDataSource
+            schools: schoolsDataSource,
+            handleRefresh: _handleRefresh,
+            getCityName: getCityName
         };
     }());
 
     // Schools view model
-    var schoolsViewModel = (function () {
-        // Navigate to activityView When some activity is selected
+    var schoolsViewModel = (function () {       
+        var show = function (e) { 
+            schoolsModel.schools.bind("change", function() {
+                cityName = schoolsModel.getCityName();
+                kendo.bind(e.view.element, schoolsViewModel, kendo.mobile.ui);
+            });
+            
+            schoolsModel.handleRefresh();               
+        };
+        
         var activitySelected = function (e) {
             app.mobileApp.navigate('views/activityView.html?uid=' + e.data.uid);
         };
-
+        
         // Navigate to app home
         var navigateHome = function () {
             app.mobileApp.navigate('#welcome');
@@ -126,11 +127,18 @@ app.Schools = (function () {
                     navigateHome();
                 });
         };
+        
+        var cityName = "";
+        
+        var studentCityName = function() {
+            return cityName;
+        }
 
         return {
-            schools: schoolsModel.schools,
-            activitySelected: activitySelected,
-            logout: logout
+            schools: schoolsModel.schools,            
+            show: show,
+            logout: logout,
+            studentCity: studentCityName
         };
     }());
 

@@ -18,10 +18,21 @@ var dataContext = (function () {
     }   
     
     function getCityName(lat, lng) {
+        var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&sensor=false";
         return $.ajax({
                           type: 'GET',
                           dataType: "json",
-                          url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&sensor=false",
+                          url: url,
+                          data: {}         
+                      }); 
+    }
+    
+    function getSchoolsByCity(city) {
+        var url = 'https://testapi.kaplaninternational.com/api/schools/' + city + '?access_token=kicbus';
+        return $.ajax({
+                          type: 'GET',
+                          dataType: "json",
+                          url: url,
                           data: {}         
                       }); 
     }
@@ -29,6 +40,7 @@ var dataContext = (function () {
     // The public API
     return { 
         calculateDistance: calculateDistance,
-        getCityName: getCityName
+        getCityName: getCityName,
+        getSchoolsByCity: getSchoolsByCity
     }
 }());

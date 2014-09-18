@@ -247,7 +247,7 @@ app.Login = (function () {
         
         function redirectUser() {
             app.mobileApp.hideLoading();
-            app.mobileApp.navigate('views/activitiesView.html');
+            app.mobileApp.navigate('views/schoolsView.html');
         }
 
         var showMistAlert = function () {
