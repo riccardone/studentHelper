@@ -14,7 +14,7 @@ var dataContext = (function () {
         ret = Math.sqrt(ret); // Total distance (calculated by Pythagore: a^2 + b^2 = c^2)
 
         // Now you have the total distance in the variable ret
-        return ret;
+        return ret.toFixed(2);
     }   
     
     function getCityName(lat, lng) {

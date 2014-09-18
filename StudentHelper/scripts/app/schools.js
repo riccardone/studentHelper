@@ -23,19 +23,20 @@ app.Schools = (function () {
                 location: {
                         field: 'location',
                         defaultValue: null
-                    },
-                pictureUrl: {
-                        field: 'pictureUrl',
-                        defaultValue: 'styles/images/kimages.jpg'
-                    }
+                    }               
             }
         };
         
+        var positionCache;
         var studentCityName = '';
         //var url = '';
         
         var getCityName = function() {
             return studentCityName;
+        }
+        
+        var getPosition = function() {
+            return positionCache;
         }
         
         var schoolsDataSource = new kendo.data.DataSource({
@@ -69,7 +70,8 @@ app.Schools = (function () {
                         $.each(val['types'], function(i, val2) {
                             if (val2 === "locality") {
                                 if (val['long_name'] !=="") {
-                                    studentCityName = val['long_name'];                                    
+                                    studentCityName = val['long_name']; 
+                                    positionCache = position;
                                     dataContext.getSchoolsByCity(studentCityName).then(function(data) {
                                         schoolsDataSource.data(data);                                           
                                     });
@@ -95,23 +97,27 @@ app.Schools = (function () {
         return {
             schools: schoolsDataSource,
             handleRefresh: _handleRefresh,
-            getCityName: getCityName
+            getCityName: getCityName,
+            getPosition: getPosition
         };
     }());
 
     // Schools view model
-    var schoolsViewModel = (function () {       
+    var schoolsViewModel = (function () {   
+        var position;
+        
         var show = function (e) { 
             schoolsModel.schools.bind("change", function() {
-                cityName = schoolsModel.getCityName();
+                cityName = schoolsModel.getCityName();                
                 kendo.bind(e.view.element, schoolsViewModel, kendo.mobile.ui);
             });
             
             schoolsModel.handleRefresh();               
         };
         
-        var activitySelected = function (e) {
-            app.mobileApp.navigate('views/activityView.html?uid=' + e.data.uid);
+        var schoolSelected = function (e) {
+            position = schoolsModel.getPosition();
+            app.mobileApp.navigate('views/schoolView.html?uid=' + e.data.uid + '&lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
         };
         
         // Navigate to app home
@@ -138,7 +144,8 @@ app.Schools = (function () {
             schools: schoolsModel.schools,            
             show: show,
             logout: logout,
-            studentCity: studentCityName
+            studentCity: studentCityName,
+            schoolSelected: schoolSelected
         };
     }());
 

@@ -14,9 +14,9 @@
 
 <!-- Activities ListView Template -->
 <script type="text/x-kendo-template" id="schoolTemplate">
-    <div data-role="touch" class="cf">
+    <div data-role="touch" data-bind="events: { tap: schoolSelected }" class="cf">
         <div class="user-avatar">
-             <img data-bind="attr:{src: pictureUrl}" alt="styles/images/avatar.png" /> 
+             
         </div>
         <div class="activity-content">
             <h2 class="person-name">${schoolName}</h2>
