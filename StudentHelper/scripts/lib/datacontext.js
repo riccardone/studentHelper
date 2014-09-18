@@ -15,10 +15,20 @@ var dataContext = (function () {
 
         // Now you have the total distance in the variable ret
         return ret;
-    }     
+    }   
+    
+    function getCityName(lat, lng) {
+        return $.ajax({
+                          type: 'GET',
+                          dataType: "json",
+                          url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&sensor=false",
+                          data: {}         
+                      }); 
+    }
     
     // The public API
     return { 
-        calculateDistance: calculateDistance
+        calculateDistance: calculateDistance,
+        getCityName: getCityName
     }
 }());
