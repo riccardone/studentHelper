@@ -1,39 +1,47 @@
-<div id="single-school" class="activity-view"
-    data-role="view" 
-    data-layout="default"     
-    data-init="app.locationService.initLocation"
-    data-show="app.locationService.show"
-    data-hide="app.locationService.hide"
-    data-model="app.locationService.viewModel"
-    data-stretch="true">
+<div data-role="view" 
+     id="view-location" 
+     class="activity-view" 
+     data-layout="default"     
+     data-init="app.locationService.initLocation" 
+     data-show="app.locationService.show"
+     data-hide="app.locationService.hide"
+     data-model="app.locationService.viewModel"
+     data-stretch="true"
+     >
     <div data-role="header">
         <div data-role="navbar">
-            School
-            <a class="nav-button nav-button-back hide-text" data-align="left" data-role="backbutton">Back</a>
-            <!-- <a class="nav-button nav-button-post" data-align="right" data-role="button" href="views/addCommentView.html">Comment</a> -->
+            <span data-bind="text: school.schoolName"></span>
+            <a class="nav-button nav-button-back hide-text" data-align="left" data-click="onBackClick" data-role="backbutton">Back</a>
         </div>
     </div>
 
     <div id="status-container" class="user-status-wrp cf" data-role="listview" data-style="inset">
         <div class="user-avatar">
-            <img data-bind="attr:{src: pictureUrl}" alt="styles/images/avatar.png" />
+            <img data-bind="attr:{src: school.pictureUrl}" alt="styles/images/avatar.png" />
         </div>
         <div class="activity-content">
-            <h2 id="schoolName" class="person-name" data-bind='text: schoolName'></h2>
-            <span id="schoolText" data-bind="text: address" class="user-share-txt"></span>
-            
-            <br />
-            <br />
-            <span id="distanceText" style="strong" class="user-share-txt">Distance from your current location:</span> 
-            <span class="user-share-txt" data-bind="text: distance"></span> 
-            <span class="user-share-txt">Km</span>            
-            <div class="comments-wrp">
-                <div id="map-canvas" class="map" data-bind="visible: isGoogleMapsInitialized"></div>
-            </div> 
+            <h2 id="schoolName" class="person-name" data-bind='text: school.schoolName'></h2>
+            <span id="schoolText" data-bind="text: school.address" class="user-share-txt"></span>            
         </div>
+        <div class="mapsection">
+            <div id="map-canvas" class="map" style="height:200px; border:1px solid #CCC; margin: 5px"></div>
+            <span class="user-share-txt">Distance from you Km </span><span data-bind="text: school.distance" class="user-share-txt"></span>
+        </div>
+
+        <div id="no-map" data-bind="invisible: isGoogleMapsInitialized">
+            <h3>Location requires internet connection to display the map.</h3>
+        </div>
+
+        <!-- <div id="map-search-wrap" class="map-tools" data-bind="visible: isGoogleMapsInitialized, invisible: hideSearch">
+        <div>
+        <button id="map-navigate-home" class="map-tools-button home" data-bind="click: onNavigateHome"></button>
+        <input id="map-address" type="search" class="map-tools-input" data-bind="value: address" placeholder="Address" />
+        <button id="map-search" class="map-tools-button search" data-bind="click: onSearchAddress"></button>
+        </div>
+        </div> -->
+        <!--  -->
     </div>
-    
     <div data-role="footer">
-        
     </div>
 </div>
+

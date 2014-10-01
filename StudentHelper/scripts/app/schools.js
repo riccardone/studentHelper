@@ -128,8 +128,8 @@ app.Schools = (function () {
         
         var schoolSelected = function (e) {
             position = schoolsModel.getPosition();
-            app.mobileApp.navigate('views/schoolView.html?uid=' + e.data.uid + '&lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
-            //app.mobileApp.navigate('views/locationView.html?uid=' + e.data.uid + '&lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
+            //app.mobileApp.navigate('views/schoolView.html?uid=' + e.data.uid + '&lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);app.mobileApp.navigate('views/schoolView.html?uid=' + e.data.uid + '&lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
+            app.mobileApp.navigate('views/locationView.html?uid=' + e.data.uid + '&lat=' + position.coords.latitude + '&lon=' + position.coords.longitude);
         };
         
         // Navigate to app home
