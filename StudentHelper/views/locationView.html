@@ -1,4 +1,11 @@
-<div data-role="view" id="single-school" data-layout="default" class="activity-view" data-init="app.School.init" data-show="app.School.show">
+<div id="single-school" class="activity-view"
+    data-role="view" 
+    data-layout="default"     
+    data-init="app.locationService.initLocation"
+    data-show="app.locationService.show"
+    data-hide="app.locationService.hide"
+    data-model="app.locationService.viewModel"
+    data-stretch="true">
     <div data-role="header">
         <div data-role="navbar">
             School
@@ -21,21 +28,12 @@
             <span class="user-share-txt" data-bind="text: distance"></span> 
             <span class="user-share-txt">Km</span>            
             <div class="comments-wrp">
-                <div id="map"></div>
+                <div id="map-canvas" class="map" data-bind="visible: isGoogleMapsInitialized"></div>
             </div> 
         </div>
     </div>
     
     <div data-role="footer">
-        <!-- <a data-role="button" data-bind="visible: isVisible" data-click="app.Activity.remove" class="btn btn-delete">Delete</a> -->
+        
     </div>
 </div>
-
-<!-- Comments Template 
-<script type="text/x-kendo-template" id="commentsTemplate">
-    <div class="comment-content">
-        <h2 class="person-name">${User()}</h2>
-        <span class="time-span">${CreatedAtFormatted()}</span>
-        <a class="user-share-txt">${Comment}</a>
-    </div>
-</script>-->
