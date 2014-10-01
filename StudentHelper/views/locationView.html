@@ -10,8 +10,10 @@
      >
     <div data-role="header">
         <div data-role="navbar">
-            <span data-bind="text: school.schoolName"></span>
+            <!-- <span data-bind="text: school.schoolName"></span> -->
+            <span>School</span> 
             <a class="nav-button nav-button-back hide-text" data-align="left" data-click="onBackClick" data-role="backbutton">Back</a>
+            <a class="nav-button nav-button-post" data-align="right" data-role="button" data-click="app.locationService.onActivitiesClick">Activities</a>
         </div>
     </div>
 
@@ -22,7 +24,8 @@
         <div class="activity-content">
             <h2 id="schoolName" class="person-name" data-bind='text: school.schoolName'></h2>
             <span id="schoolText" data-bind="text: school.address" class="user-share-txt"></span>                        
-            <h3 class="person-name">Today Courses</h3>            
+            <h3 class="person-name">Today Courses</h3>                        
+            <span class="user-share-txt">...</span>                        
         </div>
         
 
