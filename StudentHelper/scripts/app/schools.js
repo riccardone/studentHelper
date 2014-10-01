@@ -23,7 +23,11 @@ app.Schools = (function () {
                 location: {
                         field: 'location',
                         defaultValue: null
-                    }               
+                    },
+                PictureUrl: {
+                        field: 'pictureUrl',
+                        defaultValue: 'styles/images/avatar.png'
+                    },               
             }
         };
         
@@ -73,6 +77,7 @@ app.Schools = (function () {
                                     studentCityName = val['long_name']; 
                                     positionCache = position;
                                     dataContext.getSchoolsByCity(studentCityName).then(function(data) {
+                                        resolvePictureUrls(data);
                                         schoolsDataSource.data(data);                                           
                                     });
                                 } else {
@@ -86,7 +91,13 @@ app.Schools = (function () {
                 //app.mobileApp.hideLoading();                
             }, function (err) { 
                 console.log('error: ' + err);
-            });                
+            }); 
+            
+            function resolvePictureUrls(schools){
+                for(var i = 0; i < schools.length; i++){
+                	
+                }
+            }
         }
         
         var _onError = function(error) {
