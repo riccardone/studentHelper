@@ -21,16 +21,10 @@
         </div>
         <div class="activity-content">
             <h2 id="schoolName" class="person-name" data-bind='text: school.schoolName'></h2>
-            <span id="schoolText" data-bind="text: school.address" class="user-share-txt"></span>            
+            <span id="schoolText" data-bind="text: school.address" class="user-share-txt"></span>                        
+            <h3 class="person-name">Today Courses</h3>            
         </div>
-        <div class="mapsection">
-            <div id="map-canvas" class="map" style="height:200px; border:1px solid #CCC; margin: 5px"></div>
-            <span class="user-share-txt">Distance from you Km </span><span data-bind="text: school.distance" class="user-share-txt"></span>
-        </div>
-
-        <div id="no-map" data-bind="invisible: isGoogleMapsInitialized">
-            <h3>Location requires internet connection to display the map.</h3>
-        </div>
+        
 
         <!-- <div id="map-search-wrap" class="map-tools" data-bind="visible: isGoogleMapsInitialized, invisible: hideSearch">
         <div>
@@ -42,6 +36,14 @@
         <!--  -->
     </div>
     <div data-role="footer">
+        <div class="mapsection">
+            <div id="map-canvas" class="map" style="height:200px; border:1px solid #CCC; margin: 5px"></div>
+            <span class="user-share-txt">Distance from you Km </span><span data-bind="text: school.distance" class="user-share-txt"></span>
+        </div>
+
+        <div id="no-map" data-bind="invisible: isGoogleMapsInitialized">
+            <h3>Location requires internet connection to display the map.</h3>
+        </div>
     </div>
 </div>
 
